@@ -1,17 +1,19 @@
 require 'byebug'
 describe Merger do
+
   (1..3).each do |n|
     let(:"file_#{n}") do
-      file = File.open("spec/1.temp","r")
+      file = File.open("temp/#{n}.temp","r")
       file
     end
   end
 
   describe "read_n_lines" do
 
-    it "should return nil if file is empty" do
+    it "should return [] if file is empty" do
       f=file_1
-      Merger.send(:read_n_lines,f, 500)
+      Merger.send(:read_n_lines,f, 200000)
+      Merger.send(:read_n_lines,f, 200000)
       result = Merger.send(:read_n_lines,f, 200)
       f.close
 
@@ -91,19 +93,6 @@ describe Merger do
       expect(h.keys.count).to eq(3)
       expect(global_arrays_elems_count).to eq(6)
     end
-
-    it "should read more lines from the file if the array of that hash is empty" do
-      h = {
-        file_1 => ["a"],
-        file_2 => ["zzzzzz"],
-        file_3 => ["zzzzzz"],
-      }
-
-      expect(h[file_1].count).to eq(1)
-
-      expect(h[file_1].count).to eq(10)
-      expect(h[file_1].count).to eq(9)
-    end
   end
 
   describe "merge" do
@@ -124,8 +113,9 @@ describe Merger do
       file_1_lines = File.readlines("temp/1.temp").count
       file_2_lines = File.readlines("temp/2.temp").count
       file_3_lines = File.readlines("temp/3.temp").count
+      file_4_lines = File.readlines("temp/4.temp").count
 
-      lines_sum = file_1_lines + file_2_lines + file_3_lines
+      lines_sum = file_1_lines + file_2_lines + file_3_lines + file_4_lines
       out_lines = File.readlines("out").count
 
       expect(out_lines).to eq(lines_sum)

@@ -19,7 +19,7 @@
 $: << File.expand_path("..",File.dirname(__FILE__))
 require 'quicksort_worker'
 require 'merger'
-#require 'big_sorter'
+require 'big_sorter'
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
@@ -44,6 +44,20 @@ RSpec.configure do |config|
     # `true` in RSpec 4.
     mocks.verify_partial_doubles = true
   end
+
+  puts "Generating test files..."
+  `ruby -e 'a=STDIN.readlines;300000.times do;b=[];16.times do; b << a[rand(a.size)].chomp end; puts b.join(" "); end' < /usr/share/dict/words > file.txt`
+  puts "Executing 'ruby exec.rb --no-cleanup' to generate the sorted fragments..."
+  `ruby exec.rb --no-cleanup`
+  
+  puts "Overriding constants values to keep tests consistent..."
+  puts "Brace for the warnings..."
+  Merger.const_set("LINES_PER_READ", 10)
+  Merger.const_set("OUTPUT_FILE", "out")
+  BigSorter.const_set("NR_OF_PROCESSES", 10)
+  BigSorter.const_set("TEXT_BLOCK_SIZE", 90000)
+  puts "Warnings over!"
+  puts "starting tests..."
 
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.
