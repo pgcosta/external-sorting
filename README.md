@@ -26,7 +26,8 @@ You can tweak settings by altering the values of static variables in **big_sorte
 
 # How to run the tests?
 
-1. simply run rspec in the directory
+1. run ```rspec --init``` in the directory
+2. then simply ```rspec```
 
 # Analysis of the solution
 
