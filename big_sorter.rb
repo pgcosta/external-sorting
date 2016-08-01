@@ -18,11 +18,11 @@ module BigSorter
     file_number = 0
     file=File.open("file.txt", 'r')
 
+    # read chunk of the file
+    lines = read_n_lines(file, TEXT_BLOCK_SIZE)
+
     # loop to read the file
     loop do
-      # read chunk of the file
-      lines = read_n_lines(file, TEXT_BLOCK_SIZE)
-
       # create processes to sort chunks
       NR_OF_PROCESSES.times do |process_number|
         file_number += 1
