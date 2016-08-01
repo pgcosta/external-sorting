@@ -4,7 +4,7 @@
 
 ## Overview
 * Split the huge file in chunks
-* QuickSort each of the chunks concurrently
+* QuickSort each of the chunks concurrently (note: i consider 'A'>'a')
 * Merge the sorted chunks into the final file
 
 # Requirements
