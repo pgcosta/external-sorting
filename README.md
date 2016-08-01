@@ -4,7 +4,7 @@
 
 ## Overview
 * Split the huge file in chunks
-* Sort each of the chunks concurrently
+* QuickSort each of the chunks concurrently
 * Merge the sorted chunks into the final file
 
 # Requirements
@@ -16,13 +16,13 @@ Tested with the following:
 
 # How to execute?
 
-1. run '''ruby -e 'a=STDIN.readlines;5000000.times do;b=[];16.times do; b << a[rand(a.size)].chomp end; puts b.join(" "); end' < /usr/share/dict/words > file.txt'''
+1. generate the file ```ruby -e 'a=STDIN.readlines;5000000.times do;b=[];16.times do; b << a[rand(a.size)].chomp end; puts b.join(" "); end' < /usr/share/dict/words > file.txt```
  
-2. run '''ruby exec.rb'''
+2. run ```ruby exec.rb```
 
 3. a file named 'out' will be created with the sorted data
 
-You can tweak settings by altering the values of static variables in big_sorter.rb and merger.rb, and check options running '''ruby exec -h'''
+You can tweak settings by altering the values of static variables in **big_sorter.rb** and **merger.rb**, and check options running ```ruby exec -h```
 
 # How to run the tests?
 
@@ -53,7 +53,7 @@ So my approach was to use a traditional external sort. Here are the steps:
 
 For the partition phase, each chunk gets quicksorted and outputed to a temp file.
 
-The number of chunks depend on the TEXT_BLOCK_SIZE defined in big_sorter.rb. Let K be the number of chunks.
+The number of chunks depend on the **TEXT_BLOCK_SIZE** defined in big_sorter.rb. Let K be the number of chunks.
 
 So the average case for quicksort is O(n log n), which for this scenario, taking into account the randomness of the data in file.txt, is pretty accurate.
 
@@ -81,5 +81,5 @@ In the end the temp files are deleted. One possible optimization is to destroy t
 
 In terms of physical memory, more benchmarks should be done to determine a good size for the chunks.
 
-Both for partitioning and merging, the files are only read in chunks. These chunks are easily configurable (TEXT_BLOCK_SIZE and LINES_PER_READ).
+Both for partitioning and merging, the files are only read in chunks. These chunks are easily configurable (**TEXT_BLOCK_SIZE** and **LINES_PER_READ**).
 
